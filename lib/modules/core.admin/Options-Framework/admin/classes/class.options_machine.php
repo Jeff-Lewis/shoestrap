@@ -80,7 +80,7 @@ class Options_Machine {
 				'options'	=> $options,
 				'smof_data'	=> $smof_data,
 			));
-		if ($smof_output != "") {
+        if ((string)$smof_output !== "") {
 			$output .= $smof_output;
 			$smof_output = "";
 		}
@@ -90,14 +90,14 @@ class Options_Machine {
 		foreach ($options as $value) {
 			
 			// sanitize option
-			if ($value['type'] != "heading")
+            if ((string)$value['type'] !== "heading")
 				$value = self::sanitize_option($value);
 
 			$counter++;
 			$val = '';
 			
 			//create array of defaults		
-			if ($value['type'] == 'multicheck'){
+            if ((string)$value['type'] === 'multicheck'){
 				if (is_array($value['std'])){
 					foreach($value['std'] as $i=>$key){
 						$defaults[$value['id']][$key] = true;
@@ -114,7 +114,7 @@ class Options_Machine {
 			
 				if (array_key_exists('id', $value) && !isset($smof_data[$value['id']])) {
 					$smof_data[$value['id']] = $value['std'];
-					if ($value['type'] == "checkbox" && $value['std'] == 0) {
+                    if ((string)$value['type'] === "checkbox" && (string)$value['std'] === (string)0 ) {
 						$smof_data[$value['id']] = 0;
 					} else {
 						$update_data = true;
@@ -125,7 +125,7 @@ class Options_Machine {
 				}
 
 			//Start Heading
-			 if ( $value['type'] != "heading" )
+                if ( (string)$value['type'] !== "heading" )
 			 {
 			 	$class = ''; if(isset( $value['class'] )) { $class = $value['class']; }
 				
@@ -162,7 +162,7 @@ class Options_Machine {
 					
 					$mini ='';
 					if(!isset($value['mod'])) $value['mod'] = '';
-					if($value['mod'] == 'mini') { $mini = 'mini';}
+                        if((string)$value['mod'] === 'mini') { $mini = 'mini';}
 					
 					$output .= '<input class="of-input '.$mini.'" name="'.$value['id'].'" id="'. $value['id'] .'" type="'. $value['type'] .'" value="'. $t_value .'" />';
 				break;
@@ -171,7 +171,7 @@ class Options_Machine {
 				case 'select':
 					$mini ='';
 					if(!isset($value['mod'])) $value['mod'] = '';
-					if($value['mod'] == 'mini') { $mini = 'mini';}
+                        if((string)$value['mod'] === 'mini') { $mini = 'mini';}
 					$output .= '<div class="select_wrapper ' . $mini . '">';
 					$output .= '<select class="select of-input" name="'.$value['id'].'" id="'. $value['id'] .'">';
 
@@ -223,7 +223,7 @@ class Options_Machine {
 				
 				//multiple checkbox option
 				case 'multicheck': 			
-					(isset($smof_data[$value['id']]))? $multi_stored = $smof_data[$value['id']] : $multi_stored="";
+                        (isset($smof_data[$value['id']])) ? $multi_stored = $smof_data[$value['id']] : $multi_stored="";
 								
 					foreach ($value['options'] as $key => $option) {
 						if (!isset($multi_stored[$key])) {$multi_stored[$key] = '';}
@@ -371,7 +371,7 @@ class Options_Machine {
 			
 						$checked = '';
 						$selected = '';
-						if(NULL!=checked($select_value, $key, false)) {
+                            if( NULL != checked($select_value, $key, false) ) {
 							$checked = checked($select_value, $key, false);
 							$selected = 'of-radio-img-selected';  
 						}
@@ -495,7 +495,7 @@ class Options_Machine {
 
 						$output .= '<input class="sorter-placebo" type="hidden" name="'.$value['id'].'['.$group.'][placebo]" value="placebo">';
 
-						if ($key != "placebo") {
+                                    if ((string)$key !== "placebo") {
 
 						    $output .= '<li id="'.$key.'" class="sortee">';
 						    $output .= '<input class="position" type="hidden" name="'.$value['id'].'['.$group.']['.$key.']" value="'.$list.'">';
@@ -524,7 +524,7 @@ class Options_Machine {
 				
 							$checked = '';
 							$selected = '';
-							if(NULL!=checked($select_value, $option, false)) {
+                                if(NULL != checked($select_value, $option, false)) {
 								$checked = checked($select_value, $option, false);
 								$selected = 'of-radio-tile-selected';  
 							}
@@ -589,7 +589,7 @@ class Options_Machine {
 						$g_size = '';
 					}
 					$hide = " hide";
-					if ($smof_data[$value['id']] != "none" && $smof_data[$value['id']] != "")
+                        if ((string)$smof_data[$value['id']] !== "none" && (string)$smof_data[$value['id']] !== "")
 						$hide = "";
 					
 					$output .= '<p class="'.$value['id'].'_ggf_previewer google_font_preview'.$hide.'" '. $g_size .'>'. $g_text .'</p>';
@@ -613,7 +613,7 @@ class Options_Machine {
 						$s_edit  = '';
 					}
 					
-					if ($s_val == '') $s_val = $s_min;
+                        if ((string)$s_val === '') $s_val = $s_min;
 					
 					//values
 					$s_data = 'data-id="'.$value['id'].'" data-val="'.$s_val.'" data-min="'.$s_min.'" data-max="'.$s_max.'" data-step="'.$s_step.'"';
@@ -637,7 +637,7 @@ class Options_Machine {
 					$cb_enabled = $cb_disabled = '';//no errors, please
 					
 					//Get selected
-					if ($smof_data[$value['id']] == 1){
+                        if ((string)$smof_data[$value['id']] === (string)1){
 						$cb_enabled = ' selected';
 						$cb_disabled = '';
 					}else{
@@ -696,13 +696,13 @@ class Options_Machine {
 					'output'	=> $output,
 					'value'		=> $value
 				));
-			if ($smof_output != "") {
+                if ((string)$smof_output !== "") {
 				$output .= $smof_output;
 				$smof_output = "";
 			}
 			
 			//description of each option
-			if ( $value['type'] != 'heading') { 
+                if ( (string)$value['type'] !== 'heading') {
 				if(!isset($value['desc'])){ $explain_value = ''; } else{ 
 					$explain_value = '<div class="explain">'. $value['desc'] .'</div>'."\n"; 
 				} 
@@ -729,7 +729,7 @@ class Options_Machine {
 					'output'		=> $output,
 					'value'			=> $value
 				));
-		if ($smof_output != "") {
+        if ((string)$smof_output !== "") {
 			$output .= $smof_output;
 			$smof_output = "";
 		}
@@ -760,9 +760,9 @@ class Options_Machine {
 	    	$upload = $smof_data[$id];
 		$hide = '';
 		
-		if ($mod == "min") {$hide ='hide';}
+        if ((string)$mod === "min") {$hide ='hide';}
 		
-	    if ( $upload != "") { $val = $upload; } else {$val = $std;}
+        if ( (string)$upload !== "") { $val = $upload; } else {$val = $std;}
 	    
 		$uploader .= '<input class="'.$hide.' upload of-input" name="'. $id .'" id="'. $id .'_upload" value="'. $val .'" />';	
 		
